@@ -97,7 +97,7 @@ library-management-system/
 ## 1️⃣ Clone the Repository
 
 git clone
-https://github.com/`<your-username>`{=html}/library-management-system.git
+https://github.com/olaoluwaoyebola/library-management-system.git
 cd library-management-system
 
 ## 2️⃣ Create Virtual Environment
