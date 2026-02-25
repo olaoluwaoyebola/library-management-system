@@ -95,10 +95,11 @@ library-management-system/
 # 🚀 Installation & Setup Guide
 
 ## 1️⃣ Clone the Repository
+cd library-management-system
 
 git clone
 https://github.com/olaoluwaoyebola/library-management-system.git
-cd library-management-system
+
 
 ## 2️⃣ Create Virtual Environment
 
@@ -106,7 +107,7 @@ python -m venv venv
 
 Activate:
 
-Windows: venv`\Scripts`{=tex}`\activate`{=tex}
+Windows: venv\Scripts\activate
 
 Mac/Linux: source venv/bin/activate
 
