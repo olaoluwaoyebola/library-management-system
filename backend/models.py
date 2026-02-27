@@ -1,6 +1,15 @@
-from sqlalchemy import Column, Integer, String, Float, Date, ForeignKey
+from datetime import datetime
+from sqlalchemy import (
+    Column,
+    DateTime,
+    Float,
+    ForeignKey,
+    Integer,
+    String,
+    UniqueConstraint,
+)
 from sqlalchemy.orm import relationship
-from database import Base
+from backend.database import Base
 
 class Section(Base):
     __tablename__ = "sections"
@@ -8,11 +17,14 @@ class Section(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=True, nullable=False)
 
-    books = relationship("Book", back_populates="section")
+    books = relationship("Book", back_populates="section", cascade="all, delete-orphan")
 
 
 class Book(Base):
     __tablename__ = "books"
+    __table_args__ = (
+        UniqueConstraint("title", "author", "version", "section_id", name="uq_book_identity"),
+    )
 
     id = Column(Integer, primary_key=True)
     title = Column(String, nullable=False)
@@ -25,20 +37,23 @@ class Book(Base):
 
     status = Column(String, default="AVAILABLE")
 
-    section_id = Column(Integer, ForeignKey("sections.id"))
+    section_id = Column(Integer, ForeignKey("sections.id"), nullable=False)
     section = relationship("Section", back_populates="books")
 
-    borrows = relationship("BorrowRecord", back_populates="book")
+    borrows = relationship("BorrowRecord", back_populates="book", cascade="all, delete-orphan")
 
 
-class User(Base):
-    __tablename__ = "users"
+class Student(Base):
+    __tablename__ = "students"
 
     id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
+    full_name = Column(String, nullable=False)
+    matric_number = Column(String, unique=True, nullable=False)
     email = Column(String, unique=True, nullable=False)
+    department = Column(String, nullable=True)
+    created_at = Column(DateTime, default=datetime.now, nullable=False)
 
-    borrows = relationship("BorrowRecord", back_populates="user")
+    borrows = relationship("BorrowRecord", back_populates="student")
 
 
 class BorrowRecord(Base):
@@ -46,14 +61,15 @@ class BorrowRecord(Base):
 
     id = Column(Integer, primary_key=True)
 
-    user_id = Column(Integer, ForeignKey("users.id"))
-    book_id = Column(Integer, ForeignKey("books.id"))
+    student_id = Column(Integer, ForeignKey("students.id"), nullable=False)
+    book_id = Column(Integer, ForeignKey("books.id"), nullable=False)
 
-    borrow_date = Column(Date)
-    due_date = Column(Date)
-    return_date = Column(Date, nullable=True)
+    borrowed_at = Column(DateTime, default=datetime.now, nullable=False)
+    due_at = Column(DateTime, nullable=False)
+    lend_days = Column(Integer, nullable=False)
+    returned_at = Column(DateTime, nullable=True)
 
-    fine = Column(Float, default=0)
+    fine_amount = Column(Float, default=0.0, nullable=False)
 
-    user = relationship("User", back_populates="borrows")
+    student = relationship("Student", back_populates="borrows")
     book = relationship("Book", back_populates="borrows")

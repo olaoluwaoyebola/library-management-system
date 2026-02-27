@@ -1,24 +1,24 @@
-from database import engine, Base, SessionLocal
-from models import Section
+import sys
+from pathlib import Path
 
-SECTIONS = [
-    "SCIENCES",
-    "ARTS",
-    "SOCIALS",
-    "ECONOMICS",
-    "RELIGION",
-    "GENERAL STUDIES"
-]
+# Support running this file directly: `python backend/init__db.py`.
+if __package__ in (None, ""):
+    sys.path.append(str(Path(__file__).resolve().parents[1]))
 
-Base.metadata.create_all(bind=engine)
+from backend.crud import ensure_sections
+from backend.database import Base, SessionLocal, engine
 
-db = SessionLocal()
 
-for sec in SECTIONS:
-    if not db.query(Section).filter(Section.name == sec).first():
-        db.add(Section(name=sec))
+def initialize_database() -> None:
+    # Create all tables first, then seed fixed sections.
+    Base.metadata.create_all(bind=engine)
+    db = SessionLocal()
+    try:
+        ensure_sections(db)
+    finally:
+        db.close()
 
-db.commit()
-db.close()
 
-print("Database initialized successfully.")
+if __name__ == "__main__":
+    initialize_database()
+    print("Database initialized successfully with default sections.")
