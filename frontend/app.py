@@ -14,7 +14,7 @@ DEFAULT_SECTIONS = [
 
 st.set_page_config(page_title="Library Management System", layout="wide")
 st.title("Library Management System")
-st.caption("FastAPI backend + Streamlit frontend")
+st.caption("Empowering minds, enriching lives.")
 
 
 def api_request(method: str, base_url: str, path: str, **kwargs):
@@ -67,7 +67,7 @@ if menu == "Dashboard":
     if dashboard:
         col1, col2, col3, col4 = st.columns(4)
         col1.metric("Sections", dashboard["total_sections"])
-        col2.metric("Books (Titles)", dashboard["total_books"])
+        col2.metric("Books", dashboard["total_books"])
         col3.metric("Students", dashboard["total_students"])
         col4.metric("Active Borrows", dashboard["active_borrows"])
 
@@ -88,7 +88,7 @@ elif menu == "Books":
 
     with tab_add:
         if not sections_ready:
-            st.warning("Sections are not synced from the API yet. Retry when backend is ready.")
+            st.warning("Please try again later.")
         with st.form("add_book_form", clear_on_submit=True):
             title = st.text_input("Title")
             author = st.text_input("Author")
@@ -176,9 +176,9 @@ elif menu == "Borrow Book":
     books = api_request("GET", api_base, "/books", params={"include_out_of_stock": False}) or []
 
     if not students:
-        st.warning("Add at least one student before borrowing.")
+        st.warning("No Student in Databse.")
     elif not books:
-        st.warning("No available books to borrow.")
+        st.warning("Books Unavailable.")
     else:
         student_options = {
             f"#{student['id']} - {student['full_name']} ({student['matric_number']})": student["id"]
