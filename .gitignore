@@ -4,3 +4,8 @@ vlms/
 env/
 venv/
 myvenv/
+
+# Local runtime artifacts
+__pycache__/
+*.pyc
+*.db

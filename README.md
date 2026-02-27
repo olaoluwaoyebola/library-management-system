@@ -1,206 +1,71 @@
-# 📚 Library Management System
+# Library Management System
 
-A structured full-stack Library Management System built with FastAPI,
-SQLite, SQLAlchemy, and Streamlit.
+Full-stack library application built with FastAPI (backend) and Streamlit (frontend).
 
-This system manages:
+## Core Features
+- Fixed section storage:
+  - `SCIENCES`
+  - `ARTS`
+  - `SOCIALS`
+  - `ECONOMICS`
+  - `RELIGION`
+  - `GENERAL STUDIES`
+- Book inventory with:
+  - `Title`, `Author`, `Version`, `Cost`, `Status`
+  - total copies, available copies, out-of-stock updates
+- Student records:
+  - full name, matric number, email, department
+- Borrow workflow:
+  - student, book, borrow datetime, due datetime, lend days
+- Return workflow:
+  - return datetime and automatic fine calculation
+- Defaulter tracking:
+  - overdue students and outstanding fines
+- Fine rule:
+  - `#500` per overdue day
 
--   Book sections (6 predefined categories)
--   Book inventory & stock control
--   Borrow and return tracking
--   Automatic fine calculation
--   Status updates when books go out of stock
--   Clean backend architecture separation
-
-------------------------------------------------------------------------
-
-# 🏗 Project Architecture
-
+## Project Structure
+```
 library-management-system/
-│
-├── backend/
-│ ├── main.py → API endpoints (Controller Layer)
-│ ├── database.py → Database connection setup
-│ ├── models.py → ORM table definitions
-│ ├── schemas.py → API validation models
-│ ├── crud.py → Business logic layer
-│ ├── init_db.py → Database initialization script
-│ └── config.py → System configuration
-│
-├── frontend/
-│ └── app.py → Streamlit User Interface
-│
-├── requirements.txt
-├── .gitignore
-└── README.md
+|-- backend/
+|   |-- __init__.py
+|   |-- config.py
+|   |-- database.py
+|   |-- models.py
+|   |-- schemas.py
+|   |-- crud.py
+|   |-- main.py
+|   `-- init__db.py
+|-- frontend/
+|   `-- app.py
+|-- requirements.txt
+`-- README.md
+```
 
-------------------------------------------------------------------------
+## Setup
+1. Create and activate virtual environment.
+2. Install dependencies:
+   - `pip install -r requirements.txt`
+3. Initialize database and seed required sections:
+   - `python -m backend.init__db`
 
-# 📚 Library Sections
+## Run
+1. Start backend API from project root:
+   - `uvicorn backend.main:app --reload`
+2. Start Streamlit UI from project root:
+   - `streamlit run frontend/app.py`
 
--   SCIENCES
--   ARTS
--   SOCIALS
--   ECONOMICS
--   RELIGION
--   GENERAL STUDIES
-
-------------------------------------------------------------------------
-
-# ⚙️ Features
-
-## Book Management
-
--   Title
--   Author
--   Version / Edition
--   Cost
--   Section
--   Total copies
--   Available copies
--   Status (AVAILABLE / OUT_OF_STOCK)
-
-## Borrow System
-
--   Borrow date tracking
--   Due date (7 days default)
--   Stock reduction
--   Automatic status update
-
-## Return System
-
--   Return date tracking
--   Automatic stock increment
--   Fine calculation
--   Status auto-restoration
-
-## Fine Calculation
-
--   Configurable fine per day
--   Applied only if returned after due date
--   Automatically stored in borrow record
-
-------------------------------------------------------------------------
-
-# 🛠 Tech Stack
-
--   Backend: FastAPI
--   Database: SQLite
--   ORM: SQLAlchemy
--   Frontend: Streamlit
--   API Communication: REST
-
-------------------------------------------------------------------------
-
-# 🚀 Installation & Setup Guide
-
-## 1️⃣ Clone the Repository
-cd library-management-system
-
-git clone
-https://github.com/olaoluwaoyebola/library-management-system.git
-
-
-## 2️⃣ Create Virtual Environment
-
-python -m venv venv
-
-Activate:
-
-Windows: venv\Scripts\activate
-
-Mac/Linux: source venv/bin/activate
-
-## 3️⃣ Install Dependencies
-
-pip install -r requirements.txt
-
-## 4️⃣ Initialize Database
-
-python backend/init_db.py
-
-## 5️⃣ Start Backend
-
-uvicorn backend.main:app --reload
-
-## 6️⃣ Start Frontend
-
-streamlit run frontend/app.py
-
-------------------------------------------------------------------------
-
-# 🔄 System Workflow
-
-### Borrow Flow
-1. User sends borrow request
-2. System checks stock availability
-3. Stock decreases
-4. Borrow record created
-5. Due date assigned
-6. Status updated if out of stock
-
-### Return Flow
-1. Return request sent
-2. System checks due date
-3. Fine calculated if overdue
-4. Stock increases
-5. Status updated to AVAILABLE
-
-No logical loopholes:
-- Cannot borrow if stock is 0
-- Status auto-syncs with available copies
-- Fine applies only when overdue
-
-------------------------------------------------------------------------
-
-# 🤝 Collaboration Guide
-
-⚠️ Never work directly on the main branch.
-
-## Clone & Pull Latest
-
-git pull origin main
-
-## Create Branch
-
-git checkout -b feature/your-feature-name
-
-## Commit Changes
-
-git add . git commit -m "Describe your change clearly"
-
-## Push Branch
-
-git push origin feature/your-feature-name
-
-## Create Pull Request
-
-Open a Pull Request on GitHub and describe: - What you added - Why it is
-needed - Any changes made
-
-------------------------------------------------------------------------
-
-# 📏 Contribution Rules
-
--   Do not push directly to main
--   Keep commits small and focused
--   Test backend before pushing
--   Ensure Streamlit UI runs correctly
--   Follow project architecture strictly
-
-------------------------------------------------------------------------
-
-# 📌 Future Improvements(Optional)
-
--   Authentication (JWT)
--   Admin dashboard
--   Search & filter by section
--   PostgreSQL upgrade
--   Docker deployment
--   Role-based access control
-
-------------------------------------------------------------------------
-
-# 📄 License
-
-This project is open for academic and learning purposes.
+## Main API Endpoints
+- `GET /health`
+- `GET /sections`
+- `POST /sections/seed`
+- `GET /books`
+- `POST /books`
+- `PATCH /books/{book_id}/stock`
+- `GET /students`
+- `POST /students`
+- `GET /borrows`
+- `POST /borrow`
+- `POST /return/{borrow_id}`
+- `GET /defaulters`
+- `GET /dashboard`
