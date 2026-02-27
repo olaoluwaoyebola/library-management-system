@@ -1,0 +1,28 @@
+<svg width="420" height="180" viewBox="0 0 420 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="24" y1="24" x2="396" y2="156" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#14304A"/>
+      <stop offset="1" stop-color="#0D1E2F"/>
+    </linearGradient>
+    <linearGradient id="book" x1="95" y1="58" x2="165" y2="128" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F7C66F"/>
+      <stop offset="1" stop-color="#E79A32"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="8" y="8" width="404" height="164" rx="18" fill="url(#bg)"/>
+
+  <rect x="54" y="52" width="58" height="76" rx="8" fill="url(#book)"/>
+  <rect x="114" y="52" width="58" height="76" rx="8" fill="#F0B04E"/>
+  <rect x="110" y="52" width="6" height="76" fill="#FFF2DA"/>
+  <path d="M66 70H102" stroke="#8F5B16" stroke-width="4" stroke-linecap="round"/>
+  <path d="M126 70H162" stroke="#8F5B16" stroke-width="4" stroke-linecap="round"/>
+
+  <circle cx="206" cy="90" r="4" fill="#D7E8F9"/>
+  <circle cx="218" cy="90" r="4" fill="#D7E8F9"/>
+  <circle cx="230" cy="90" r="4" fill="#D7E8F9"/>
+
+  <text x="250" y="82" fill="#FFFFFF" font-size="24" font-family="Segoe UI, Arial, sans-serif" font-weight="700">NUPAT</text>
+  <text x="250" y="109" fill="#C7DAEE" font-size="18" font-family="Segoe UI, Arial, sans-serif" font-weight="600">Library</text>
+  <text x="250" y="130" fill="#94B3CF" font-size="11" font-family="Segoe UI, Arial, sans-serif" font-weight="500" letter-spacing="1.6">READ . LEARN . GROW</text>
+</svg>
