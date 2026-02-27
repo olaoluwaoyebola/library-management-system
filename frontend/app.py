@@ -1,7 +1,10 @@
+from pathlib import Path
+
 import requests
 import streamlit as st
 
 DEFAULT_API = "http://127.0.0.1:8000"
+LOGO_PATH = Path(__file__).parent / "assets" / "library-logo.svg"
 DEFAULT_SECTIONS = [
     "SCIENCES",
     "ARTS",
@@ -44,7 +47,7 @@ def render_table(rows, empty_message: str = "No records found.") -> None:
         st.info(empty_message)
 
 
-api_base = st.sidebar.text_input("Backend URL", value=DEFAULT_API).rstrip("/")
+api_base = DEFAULT_API.rstrip("/")
 menu_placeholder = ["Dashboard", "Books", "Students", "Borrow Book", "Return Book", "Defaulters"]
 
 health = api_request("GET", api_base, "/health")
@@ -59,6 +62,8 @@ if not sections:
 section_names = [section["name"] for section in sections]
 section_map = {section["name"]: section["id"] for section in sections}
 sections_ready = all(section_map[name] > 0 for name in section_names)
+if LOGO_PATH.exists():
+    st.sidebar.image(str(LOGO_PATH), use_container_width=True)
 menu = st.sidebar.radio("Navigation", menu_placeholder + [f"Section: {name}" for name in section_names])
 
 
