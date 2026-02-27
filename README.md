@@ -2,6 +2,10 @@
 
 Full-stack library application built with FastAPI (backend) and Streamlit (frontend).
 
+## Project Overview
+This project helps a school library manage books, students, borrowing, returns, overdue tracking, and fines in one place.  
+The FastAPI backend exposes REST endpoints for all library operations, while the Streamlit frontend provides a simple interface for librarians to use those features.
+
 ## Core Features
 - Fixed section storage:
   - `SCIENCES`
@@ -42,18 +46,25 @@ library-management-system/
 `-- README.md
 ```
 
-## Setup
-1. Create and activate virtual environment.
-2. Install dependencies:
+## Getting Started (Clone to Run)
+1. Clone the repository:
+   - `git clone https://github.com/olaoluwaoyebola/library-management-system.git`
+2. Move into the project folder:
+   - `cd library-management-system`
+3. Create and activate a virtual environment:
+   - Windows (PowerShell): `python -m venv .venv` then `.venv\Scripts\Activate.ps1`
+   - macOS/Linux: `python -m venv .venv` then `source .venv/bin/activate`
+4. Install dependencies:
    - `pip install -r requirements.txt`
-3. Initialize database and seed required sections:
+5. Initialize the database and seed the default sections:
    - `python -m backend.init__db`
-
-## Run
-1. Start backend API from project root:
+6. Start the backend API (from project root):
    - `uvicorn backend.main:app --reload`
-2. Start Streamlit UI from project root:
+7. In a new terminal (same project root), start the frontend:
    - `streamlit run frontend/app.py`
+8. Open the app:
+   - Frontend: `http://localhost:8501`
+   - API docs: `http://127.0.0.1:8000/docs`
 
 ## Main API Endpoints
 - `GET /health`
