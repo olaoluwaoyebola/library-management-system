@@ -44,7 +44,7 @@ class StudentCreate(BaseModel):
 
 
 class StudentOut(BaseModel):
-    id: int
+    id: str
     full_name: str
     matric_number: str
     email: str
@@ -55,14 +55,14 @@ class StudentOut(BaseModel):
 
 
 class BorrowCreate(BaseModel):
-    student_id: int = Field(..., gt=0)
+    student_id: str = Field(..., min_length=3, max_length=50)
     book_id: int = Field(..., gt=0)
     lend_days: Optional[int] = Field(default=None, ge=1, le=30)
 
 
 class BorrowOut(BaseModel):
     id: int
-    student_id: int
+    student_id: str
     student_name: str
     matric_number: str
     book_id: int

@@ -71,7 +71,7 @@ def _serialize_borrow(record: BorrowRecord, now: Optional[datetime] = None) -> D
 
     return {
         "id": record.id,
-        "student_id": record.student_id,
+        "student_id": record.student.matric_number if record.student else "",
         "student_name": record.student.full_name if record.student else "",
         "matric_number": record.student.matric_number if record.student else "",
         "book_id": record.book_id,
@@ -182,7 +182,7 @@ def _serialize_student(student: Student, now: Optional[datetime] = None) -> Dict
     now = now or datetime.now()
     active_borrows = sum(1 for borrow in student.borrows if borrow.returned_at is None)
     return {
-        "id": student.id,
+        "id": student.matric_number,
         "full_name": student.full_name,
         "matric_number": student.matric_number,
         "email": student.email,
@@ -241,7 +241,8 @@ def borrow_book(db: Session, payload: BorrowCreate) -> Dict[str, Any]:
             detail=f"lend_days must be between 1 and {MAX_BORROW_DAYS}",
         )
 
-    student = db.query(Student).filter(Student.id == payload.student_id).first()
+    student_key = payload.student_id.strip().upper()
+    student = db.query(Student).filter(Student.matric_number == student_key).first()
     if not student:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Student not found")
 
@@ -254,7 +255,7 @@ def borrow_book(db: Session, payload: BorrowCreate) -> Dict[str, Any]:
     already_borrowed = (
         db.query(BorrowRecord)
         .filter(
-            BorrowRecord.student_id == payload.student_id,
+            BorrowRecord.student_id == student.id,
             BorrowRecord.book_id == payload.book_id,
             BorrowRecord.returned_at.is_(None),
         )
@@ -268,7 +269,7 @@ def borrow_book(db: Session, payload: BorrowCreate) -> Dict[str, Any]:
 
     borrowed_at = datetime.now()
     borrow_record = BorrowRecord(
-        student_id=payload.student_id,
+        student_id=student.id,
         book_id=payload.book_id,
         borrowed_at=borrowed_at,
         due_at=borrowed_at + timedelta(days=lend_days),
