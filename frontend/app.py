@@ -5,6 +5,7 @@ import os
 import streamlit as st
 
 DEFAULT_API = os.getenv("API_BASE_URL") or "http://127.0.0.1:8000"  # fallback for local development
+DEFAULT_API = st.secrets["API_BASE_URL"]
 
 LOGO_PATH = Path(__file__).parent / "assets" / "library-logo.svg"
 DEFAULT_SECTIONS = [
