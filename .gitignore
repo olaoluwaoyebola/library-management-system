@@ -12,3 +12,6 @@ __pycache__/
 
 # Vscode settings
 .vscode/
+
+# Streamlit secrets
+.streamlit/secrets.toml.example

@@ -47,7 +47,12 @@ def render_table(rows, empty_message: str = "No records found.") -> None:
         st.info(empty_message)
 
 
-api_base = DEFAULT_API.rstrip("/")
+def resolve_api_base() -> str:
+    configured = str(st.secrets.get("API_BASE_URL", DEFAULT_API)).strip()
+    return (configured or DEFAULT_API).rstrip("/")
+
+
+api_base = resolve_api_base()
 menu_placeholder = ["Dashboard", "Books", "Students", "Borrow Book", "Return Book", "Defaulters"]
 
 health = api_request("GET", api_base, "/health")
@@ -64,6 +69,7 @@ section_map = {section["name"]: section["id"] for section in sections}
 sections_ready = all(section_map[name] > 0 for name in section_names)
 if LOGO_PATH.exists():
     st.sidebar.image(str(LOGO_PATH), use_container_width=True)
+st.sidebar.caption(f"API: {api_base}")
 menu = st.sidebar.radio("Navigation", menu_placeholder + [f"Section: {name}" for name in section_names])
 
 

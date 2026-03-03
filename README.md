@@ -66,6 +66,23 @@ library-management-system/
    - Frontend: `http://localhost:8501`
    - API docs: `http://127.0.0.1:8000/docs`
 
+## Deploy (Streamlit + Backend API)
+This project uses a separate frontend and backend.  
+Deploy the FastAPI backend to a cloud service first, then deploy Streamlit and point it to that backend URL.
+
+1. Deploy backend API (Render, Railway, Fly.io, etc.):
+   - Start command: `uvicorn backend.main:app --host 0.0.0.0 --port $PORT`
+   - Set `DATABASE_URL` in the backend host for persistent production storage.
+2. Confirm backend is live:
+   - Open `https://<your-backend-url>/health` and confirm it returns `{"status":"ok"}`.
+3. Deploy frontend on Streamlit Community Cloud:
+   - App file path: `frontend/app.py`
+4. Add Streamlit secret in the app settings:
+   - `API_BASE_URL = "https://<your-backend-url>"`
+   - Template file: `.streamlit/secrets.toml.example`
+5. Redeploy and test:
+   - Open the Streamlit app and verify data loads in Dashboard, Books, and Students pages.
+
 ## Main API Endpoints
 - `GET /health`
 - `GET /sections`
