@@ -1,9 +1,11 @@
 from pathlib import Path
 
 import requests
+import os
 import streamlit as st
 
-DEFAULT_API = "http://127.0.0.1:8000"
+DEFAULT_API = os.getenv("API_BASE_URL") or "http://127.0.0.1:8000"  # fallback for local development
+
 LOGO_PATH = Path(__file__).parent / "assets" / "library-logo.svg"
 DEFAULT_SECTIONS = [
     "SCIENCES",
